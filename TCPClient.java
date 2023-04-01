@@ -13,16 +13,15 @@ public class TCPClient {
             InputStream inputStream = socket.getInputStream();
             OutputStream outputStream = socket.getOutputStream();
 
-            // Read the response from the server
-            byte[] buffer = new byte[1024];
-
             while (true) {
+                // Read the response from server
+                byte[] buffer = new byte[1024];
                 int bytesRead = inputStream.read(buffer);
                 if (bytesRead == -1)
                     break;
 
                 String response = new String(buffer, 0, bytesRead);
-                System.out.println(response);
+                System.out.print(response);
 
                 // Send a message to the server
                 String message = new Scanner(System.in).nextLine();

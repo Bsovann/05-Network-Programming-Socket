@@ -38,17 +38,20 @@ class ClientHandler extends Thread {
             InputStream inputStream = clientSocket.getInputStream();
             OutputStream outputStream = clientSocket.getOutputStream();
 
-            // Create a buffer to read data from the client
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            byte[] prompt = calInter();
-
             // Read data from the client and write it
             // (bytesRead = inputStream.read(buffer))
             while (true) {
+                // Create a buffer to read data from the client
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                byte[] prompt = calInter();
+
                 outputStream.write(prompt, 0, prompt.length);
 
                 bytesRead = inputStream.read(buffer);
+
+                if (bytesRead == -1)
+                    continue;
 
                 if (buffer.toString().equals("0"))
                     break;
@@ -75,7 +78,7 @@ class ClientHandler extends Thread {
     }
 
     private byte[] sendResult(double result) {
-        String str = String.format("Your result is: %f", result);
+        String str = String.format("Your result is: %f\n", result);
         return str.getBytes();
     }
 
