@@ -1,4 +1,5 @@
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.text.Normalizer.Form;
 import java.io.*;
 
@@ -6,7 +7,7 @@ public class TCPServer {
     public static void main(String[] args) {
         try {
             // Create a server socket on port 1234
-            ServerSocket serverSocket = new ServerSocket(1234);
+            ServerSocket serverSocket = new ServerSocket(1233);
             System.out.println("Server started on port 1234");
 
             while (true) {
@@ -45,21 +46,26 @@ class ClientHandler extends Thread {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
                 byte[] prompt = calInter();
+                String expr = "";
 
                 outputStream.write(prompt, 0, prompt.length);
 
                 bytesRead = inputStream.read(buffer);
-
+                System.out.printf("Recieved : %s\n", buffer.toString());
                 if (bytesRead == -1)
                     continue;
 
-                if (buffer.toString().equals("0"))
+                expr = new String(buffer, StandardCharsets.UTF_8);
+
+                if (expr.toLowerCase().equals("e"))
                     break;
 
-                double result = Calculator.calculate(buffer.toString());
+                buffer = new byte[1024];
+                double result = Calculator.calculate(expr);
                 byte[] sendRes = sendResult(result);
 
                 outputStream.write(sendRes, 0, sendRes.length);
+                System.out.printf("Sending %f", result);
             }
 
             // Close the streams and socket when done
@@ -73,12 +79,12 @@ class ClientHandler extends Thread {
     }
 
     private byte[] calInter() {
-        String str = "Please Enter the Math Expression to evaluate or 0 to exit: ";
+        String str = "Please Enter the Math Expression to evaluate or E to exit: ";
         return str.getBytes();
     }
 
     private byte[] sendResult(double result) {
-        String str = String.format("Your result is: %f\n", result);
+        String str = String.format("Your result is: %f (Press Enter to Continue or 'E' to Exit) : ", result);
         return str.getBytes();
     }
 
