@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class TCPClient {
     public static void main(String[] args) {
         try {
-            // Connect to the server on port 1234
-            Socket socket = new Socket("localhost", 1233);
+            // Connect to the server on port
+            Socket socket = new Socket("localhost", Integer.parseInt(args[0]));
             System.out.println("Connected to server");
 
             // Get input and output streams for the socket
