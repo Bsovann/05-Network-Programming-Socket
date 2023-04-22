@@ -1,13 +1,6 @@
 import java.util.*;
 
 public class Calculator {
-    // public static void main(String[] args) {
-    //     Scanner scanner = new Scanner(System.in);
-    //     System.out.print("Enter a math expression:");
-    //     String expression = scanner.nextLine();
-    //     double result = calculate(expression);
-    //     System.out.println("Result: " + result);
-    // }
 
     public static double calculate(String expression) {
         Stack<Double> numbers = new Stack<>();

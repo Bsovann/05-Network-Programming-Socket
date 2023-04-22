@@ -8,30 +8,36 @@ public class TCPClient {
         try {
             // Connect to the server on port
             Socket socket = new Socket("localhost", Integer.parseInt(args[0]));
-            System.out.println("Connected to server");
 
             // Get input and output streams for the socket
             InputStream inputStream = socket.getInputStream();
             OutputStream outputStream = socket.getOutputStream();
 
+            BufferedReader read = new BufferedReader(new InputStreamReader(inputStream));
+            PrintWriter write = new PrintWriter(outputStream, true);
+
+            Scanner sc = new Scanner(System.in);
+
+            System.out.print(read.readLine());
+            String name = sc.nextLine();
+            write.println(name);
+            System.out.println(read.readLine());
+
             while (true) {
                 // Read the response from server
-                byte[] buffer = new byte[1024];
-                String message = "";
+                System.out.println();
+                System.out.print(read.readLine());
 
-                int bytesRead = inputStream.read(buffer);
-                if (bytesRead == -1)
+                // Send a expr to the server
+                String expr = sc.nextLine().trim();
+
+                if (expr.toLowerCase().equals("e")) {
+                    write.println(expr);
                     break;
+                } else
+                    write.println(expr);
 
-                String response = new String(buffer, StandardCharsets.UTF_8);
-                System.out.print(response);
-
-                // Send a message to the server
-                message = new Scanner(System.in).nextLine();
-                outputStream.write(message.getBytes());
-
-                if (message.toLowerCase().equals("e"))
-                    break;
+                System.out.print(read.readLine());
             }
 
             // Close the streams and socket when done
