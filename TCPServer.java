@@ -30,6 +30,7 @@ public class TCPServer {
 
 class ClientHandler extends Thread {
     private Socket clientSocket;
+    // Client information format
     public DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
     public ClientHandler(Socket clientSocket) {
@@ -41,10 +42,10 @@ class ClientHandler extends Thread {
             // Get input and output streams for the socket
             InputStream inputStream = clientSocket.getInputStream();
             OutputStream outputStream = clientSocket.getOutputStream();
-
+            // To output to client
             BufferedReader read = new BufferedReader(new InputStreamReader(inputStream));
             PrintWriter write = new PrintWriter(outputStream, true);
-
+            // Prompt server connection
             write.println("What is Your Name ? ");
             String name = read.readLine();
             System.out.printf("%s is connected! on %s", name, dtf.format(LocalDateTime.now()));
@@ -62,6 +63,7 @@ class ClientHandler extends Thread {
 
                 double result = 0.0;
                 try {
+                    System.out.printf("\n%s requested solution for %s", name, expr);
                     result = Calculator.calculate(expr);
                 } catch (Exception e) {
                 }
@@ -73,6 +75,7 @@ class ClientHandler extends Thread {
             inputStream.close();
             outputStream.close();
             clientSocket.close();
+            // Prompt disconnect
             System.out.printf("\n%s is disconnected on %s: %s", name, dtf.format(LocalDateTime.now()),
                     clientSocket.getInetAddress().getHostName());
         } catch (IOException e) {

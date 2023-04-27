@@ -12,12 +12,12 @@ public class TCPClient {
             // Get input and output streams for the socket
             InputStream inputStream = socket.getInputStream();
             OutputStream outputStream = socket.getOutputStream();
-
+            // Read buffer for solution from server, print writer to send expr
             BufferedReader read = new BufferedReader(new InputStreamReader(inputStream));
             PrintWriter write = new PrintWriter(outputStream, true);
-
+            // To read input from client
             Scanner sc = new Scanner(System.in);
-
+            
             System.out.print(read.readLine());
             String name = sc.nextLine();
             write.println(name);
