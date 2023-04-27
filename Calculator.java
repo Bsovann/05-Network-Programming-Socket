@@ -1,10 +1,13 @@
 import java.util.*;
-
+// Stack implementation to perform calculations
 public class Calculator {
-
+    // Server passes expr to calculator
     public static double calculate(String expression) {
+        // To hold the numbers
         Stack<Double> numbers = new Stack<>();
+        // To hold the operators
         Stack<Character> operators = new Stack<>();
+        // To split the expr into numbers and operators stacks.
         for (int i = 0; i < expression.length(); i++) {
             char c = expression.charAt(i);
             if (Character.isDigit(c)) {
@@ -48,11 +51,11 @@ public class Calculator {
         }
         return numbers.pop();
     }
-
+    // Returns the operator
     public static boolean isOperator(char c) {
         return c == '+' || c == '-' || c == '*' || c == '/';
     }
-
+    // Returns the operator precedence
     public static int precedence(char c) {
         if (c == '*' || c == '/') {
             return 2;
@@ -62,7 +65,7 @@ public class Calculator {
             return 0;
         }
     }
-
+    // To perform the operation between to numbers
     public static double performOperation(double num1, double num2, char op) {
         if (op == '+') {
             return num1 + num2;
